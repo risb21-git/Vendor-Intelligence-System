@@ -1,9 +1,10 @@
-import pandas as pd
+﻿import pandas as pd
 import joblib
+from pathlib import Path
 
-MODEL_PATH = ''
+MODEL_PATH = Path(__file__).resolve().parents[1] / "models" / "predict_flag_invoice.pkl"
 
-def load_model(model_path: str = MODEL_PATH):   
+def load_model(model_path: Path = MODEL_PATH):
     with open(model_path, 'rb') as f:
         model = joblib.load(f)
         return model
