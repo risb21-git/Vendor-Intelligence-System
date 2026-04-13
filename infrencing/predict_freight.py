@@ -1,18 +1,18 @@
-import joblib
+﻿import joblib
 import pandas as pd
+from pathlib import Path
 
-MODEL_PATH = 'C:/Users/RISHAV/OneDrive/Desktop/Python/Project 10-Invoice Intelligent System/models/predict_freight_model.pkl'
+MODEL_PATH = Path(__file__).resolve().parents[1] / "models" / "predict_freight_model.pkl"
 
-def load_model(model_path: str = MODEL_PATH):
+def load_model(model_path: Path = MODEL_PATH):
     """
-    Load trained model 
+    Load trained model
     """
     with open(model_path, 'rb') as f:
         model = joblib.load(f)
     return model
 
 def predict_freight_cost(input_data):
-
     """
     predict freight cost for new vendor invoices.
 
@@ -28,7 +28,7 @@ def predict_freight_cost(input_data):
     return input_df
 
 if __name__ == '__main__':
-    
+
     sample_data = {
         'Dollars': [10500,9000,3000]
     }

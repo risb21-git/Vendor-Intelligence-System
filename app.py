@@ -1,4 +1,4 @@
-import streamlit as st
+﻿import streamlit as st
 import pandas as pd
 import numpy as np
 from infrencing.predict_freight import predict_freight_cost
@@ -35,14 +35,14 @@ selected_model = st.sidebar.radio(
 st.sidebar.markdown("""
 ---
 **Buisness Impact**
-- 📈 Improved cost forcasting
-- 📉 Reduces invoice fraud & annomalies
-- ⏩ Faster financial decision making
+- Improved cost forcasting
+- Reduces invoice fraud & annomalies
+- Faster financial decision making
 """)   
 
 # fREIGHT COST PREDICTION
 if selected_model == "Freight Cost Prediction":
-    st.subheader("🚚 Freight Cost Prediction")
+    st.subheader("Freight Cost Prediction")
     st.markdown(
         """
         This model predicts the freight cost based on various input features such as:
@@ -64,21 +64,21 @@ if selected_model == "Freight Cost Prediction":
             dollars_per_unit = st.number_input("Dollars per Unit", min_value=0.01, value=1850.0)
         
         submit_freight = st.form_submit_button("Predict Freight Cost")
-    
+
     if submit_freight:
+        dollars = quantity * dollars_per_unit
         input_data = {
-            "quantity": [quantity],
-            "dollars_per_unit": [dollars_per_unit]
-
+            "Dollars": [dollars]
         }
-        prediction = predict_freight_cost(input_data)['Predicted Freight Cost']
+        prediction_df = predict_freight_cost(input_data)
+        prediction = prediction_df["predicted_freight"]
 
-        st.success(f"Predicted Freight Cost: ${prediction[0]:,.2f}")
+        st.success(f"Predicted Freight Cost: ${prediction.iloc[0]:,.2f}")
 
 # Invoice Flagging
 
 else:
-    st.subheader("📄 Invoice Flagging")
+    st.subheader("Invoice Flagging")
 
     st.markdown(
         """
@@ -119,11 +119,14 @@ else:
             "total_item_quantity": [total_item_quantity],
             "total_item_dollars": [total_item_dollars]
         }
-        flag_prediction = predict_invoice_flag(input_data)['Invoice Flag']
+        flag_prediction = predict_invoice_flag(input_data)["predicted_flag"]
 
         is_flagged = bool(flag_prediction[0])
 
         if is_flagged:
-            st.error("⚠️ This invoice has been flagged as potentially risky or abnormal.")  
+            st.error("This invoice has been flagged as potentially risky or abnormal.")  
         else:
-            st.success("✅ This invoice appears to be normal and does not require further review.") 
+            st.success("This invoice appears to be normal and does not require further review.") 
+
+
+
